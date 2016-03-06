@@ -11,7 +11,7 @@ docker_image="32bit/ubuntu:${1:-14.04}"
 ### make sure that the required tools are installed
 packages="debootstrap dchroot"
 which docker || packages="$packages docker.io"
-apt-get install -y $packages
+apt-get install -y --force-yes $packages
 
 ### install a minbase system with debootstrap
 export DEBIAN_FRONTEND=noninteractive
@@ -30,8 +30,8 @@ EOF
 cp /etc/resolv.conf $chroot_dir/etc/resolv.conf
 mount -o bind /proc $chroot_dir/proc
 chroot $chroot_dir apt-get update
-chroot $chroot_dir apt-get -y upgrade
-chroot $chroot_dir apt-get -y install ubuntu-minimal
+chroot $chroot_dir apt-get -y --force-yes upgrade
+chroot $chroot_dir apt-get -y --force-yes install ubuntu-minimal
 
 ### cleanup
 chroot $chroot_dir apt-get autoclean
